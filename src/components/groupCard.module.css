@@ -1,0 +1,15 @@
+.cardWrapper {
+    width : 30%;
+    margin : 10px;
+    border-radius: 30px;
+    text-align: center;
+}
+
+.cardWrapperTitle{
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0!important;
+}
