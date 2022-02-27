@@ -1,20 +1,65 @@
-import React from 'react'
+import React, { useState } from "react";
+import "./searchBar.css";
+import SearchIcon from "@material-ui/icons/Search";
+import CloseIcon from "@material-ui/icons/Close";
+import {Link} from 'react-router-dom'
 
-function SearchBar() {
+function SearchBar({ placeholder, data }) {
+  const [filteredData, setFilteredData] = useState([]);
+  const [wordEntered, setWordEntered] = useState("");
+
+  const handleFilter = (event) => {
+    const searchWord = event.target.value;
+    setWordEntered(searchWord);
+    const newFilter = data.filter((value) => {
+      return value.Name.toLowerCase().includes(searchWord.toLowerCase());
+    });
+
+    if (searchWord === "") {
+      setFilteredData([]);
+    } else {
+      setFilteredData(newFilter);
+    }
+  };
+
+  const getUrl = (id) => {
+    return `/details/${id}`
+  }
+
+  const clearInput = () => {
+    setFilteredData([]);
+    setWordEntered("");
+  };
+
   return (
-    <form action="/" method="get">
-    <label htmlFor="header-search">
-        <span className="visually-hidden">Search blog posts</span>
-    </label>
-    <input
-        type="text"
-        id="header-search"
-        placeholder="Search blog posts"
-        name="s" 
-    />
-    <button type="submit">Search</button>
-</form>
-  )
+    <div className="search">
+      <div className="searchInputs">
+        <input
+          type="text"
+          placeholder={placeholder}
+          value={wordEntered}
+          onChange={handleFilter}
+        />
+        <div className="searchIcon">
+          {filteredData.length === 0 ? (
+            <SearchIcon />
+          ) : (
+            <CloseIcon id="clearBtn" onClick={clearInput} />
+          )}
+        </div>
+      </div>
+      {filteredData.length != 0 && (
+        <div className="dataResult">
+          {filteredData.slice(0, 15).map((value, key) => {
+            return (
+                <Link to={getUrl(value.Id)}><p>{value.Name} </p></Link>
+                
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default SearchBar
+export default SearchBar;

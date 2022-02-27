@@ -3,7 +3,6 @@ import {Spinner} from 'reactstrap'
 import axios from "axios"
 import GroupCard from '../components/GroupCard.jsx'
 import  {API_BASE_URl} from '../constant.js'
-
 import styles from './home.module.css'
 import SearchBar from '../components/SearchBar.jsx'
 
@@ -27,12 +26,13 @@ getinitialData()
 
 
     if (isLoading) {
-        return <Spinner/>
+        return <Spinner />
     } else {
-        return (<div>
-            <SearchBar/>
-        <div className={styles.cardsContainer}>{allGroups.map((group) => <GroupCard key={group.Id} groupDetail={group} />)}</div>
-             </div>
+        return (
+        <div>
+            <SearchBar placeholder="Enter a Group Name ..." data={allGroups} />
+            <div className={styles.cardsContainer}>{allGroups.map((group) => <GroupCard key={group.Id} groupDetail={group} />)}</div>
+        </div>
         )
     }
 
